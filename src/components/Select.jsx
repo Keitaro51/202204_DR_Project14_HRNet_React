@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, forwardRef } from 'react'
 import { departments, states } from '../asssets/data'
 
-const Select = ({ optionSrc }) => {
+const Select = ({ optionSrc }, ref) => {
   const [options, setOptions] = useState([])
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const Select = ({ optionSrc }) => {
   }, [optionSrc])
 
   return (
-    <select name={optionSrc} id={optionSrc} required>
+    <select name={optionSrc} id={optionSrc} required ref={ref}>
       <option value="">--Please choose an option--</option>
       {options.map((option, index) => (
         <option key={index} value={option.name}>
@@ -25,4 +25,4 @@ const Select = ({ optionSrc }) => {
   )
 }
 
-export default Select
+export default forwardRef(Select)

@@ -3,7 +3,7 @@ import { loadState, saveState } from './localStorage'
 import employeesReducer from '../features/employees'
 
 const persistedState = loadState()
-console.log(persistedState)
+
 export const store = configureStore({
   reducer: {
     employees: employeesReducer,
