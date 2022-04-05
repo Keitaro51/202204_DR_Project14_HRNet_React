@@ -1,7 +1,7 @@
 import { useEffect, useState, forwardRef } from 'react'
 import { departments, states } from '../asssets/data'
 
-const Select = ({ optionSrc }, ref) => {
+const FormSelect = ({ optionSrc }, ref) => {
   const [options, setOptions] = useState([])
 
   useEffect(() => {
@@ -25,4 +25,4 @@ const Select = ({ optionSrc }, ref) => {
   )
 }
 
-export default forwardRef(Select)
+export default forwardRef(FormSelect)

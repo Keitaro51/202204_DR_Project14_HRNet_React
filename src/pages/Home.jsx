@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { add } from '../features/employees'
 import Modal from '../components/Modal'
-import Select from '../components/Select'
+import FormSelect from '../components/FormSelect'
 
 const Home = () => {
   const [modalDisplay, setModalDisplay] = useState(false)
@@ -104,7 +104,7 @@ const Home = () => {
             />
 
             <label htmlFor="states">State</label>
-            <Select optionSrc="states" ref={state} />
+            <FormSelect optionSrc="states" ref={state} />
 
             <label htmlFor="zip-code">Zip Code</label>
             <input
@@ -117,7 +117,7 @@ const Home = () => {
           </fieldset>
 
           <label htmlFor="departments">Department</label>
-          <Select optionSrc="departments" ref={department} />
+          <FormSelect optionSrc="departments" ref={department} />
           <input type="submit" defaultValue="Save" />
         </form>
       </div>
