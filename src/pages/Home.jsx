@@ -9,29 +9,24 @@ const Home = () => {
   const [modalDisplay, setModalDisplay] = useState(false)
   const dispatch = useDispatch()
 
-  const firstName = useRef(null)
-  const lastName = useRef(null)
-  const dateOfBirth = useRef(null)
-  const startDate = useRef(null)
-  const department = useRef(null)
-  const street = useRef(null)
-  const city = useRef(null)
-  const state = useRef(null)
-  const zipCode = useRef(null)
+  const inputs = useRef([])
+  const addInputs = (el) => {
+    el && !inputs.current.includes(el) && inputs.current.push(el)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(
       add({
-        firstName: firstName.current.value,
-        lastName: lastName.current.value,
-        dateOfBirth: dateOfBirth.current.value,
-        startDate: startDate.current.value,
-        department: department.current.value,
-        street: street.current.value,
-        city: city.current.value,
-        state: state.current.value,
-        zipCode: zipCode.current.value,
+        firstName: inputs.current[0].value,
+        lastName: inputs.current[1].value,
+        dateOfBirth: inputs.current[2].value,
+        startDate: inputs.current[3].value,
+        street: inputs.current[4].value,
+        city: inputs.current[5].value,
+        state: inputs.current[6].value,
+        zipCode: inputs.current[7].value,
+        department: inputs.current[8].value,
       })
     )
     setModalDisplay(true)
@@ -52,7 +47,7 @@ const Home = () => {
             id="first-name"
             required
             defaultValue="Hector"
-            ref={firstName}
+            ref={addInputs}
           />
 
           <label htmlFor="last-name">Last Name</label>
@@ -61,7 +56,7 @@ const Home = () => {
             id="last-name"
             required
             defaultValue="Dubuis"
-            ref={lastName}
+            ref={addInputs}
           />
 
           <label htmlFor="date-of-birth">Date of Birth</label>
@@ -70,7 +65,7 @@ const Home = () => {
             type="date"
             required
             defaultValue="1983-06-18"
-            ref={dateOfBirth}
+            ref={addInputs}
           />
 
           <label htmlFor="start-date">Start Date</label>
@@ -79,7 +74,7 @@ const Home = () => {
             type="date"
             required
             defaultValue="2022-03-29"
-            ref={startDate}
+            ref={addInputs}
           />
 
           <fieldset className="address">
@@ -91,7 +86,7 @@ const Home = () => {
               type="text"
               required
               defaultValue="10 rue des Accacias"
-              ref={street}
+              ref={addInputs}
             />
 
             <label htmlFor="city">City</label>
@@ -100,11 +95,11 @@ const Home = () => {
               type="text"
               required
               defaultValue="Joué les tours"
-              ref={city}
+              ref={addInputs}
             />
 
             <label htmlFor="states">State</label>
-            <FormSelect optionSrc="states" ref={state} />
+            <FormSelect optionSrc="states" ref={addInputs} />
 
             <label htmlFor="zip-code">Zip Code</label>
             <input
@@ -112,12 +107,12 @@ const Home = () => {
               type="number"
               required
               defaultValue="51100"
-              ref={zipCode}
+              ref={addInputs}
             />
           </fieldset>
 
           <label htmlFor="departments">Department</label>
-          <FormSelect optionSrc="departments" ref={department} />
+          <FormSelect optionSrc="departments" ref={addInputs} />
           <input type="submit" defaultValue="Save" />
         </form>
       </div>
