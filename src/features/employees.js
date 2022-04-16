@@ -38,9 +38,21 @@ const { actions, reducer } = createSlice({
       })
       return
     },
+    sortEmployee: (state, action) => {
+      state.list.sort((a, b) => {
+        const firstEntrie = a[action.payload.method].toLowerCase()
+        const secondEntrie = b[action.payload.method].toLowerCase()
+        if (action.payload.direction === 'asc') {
+          return firstEntrie.localeCompare(secondEntrie)
+        } else {
+          return secondEntrie.localeCompare(firstEntrie)
+        }
+      })
+      return state
+    },
   },
 })
 
-export const { add } = actions
+export const { add, sortEmployee } = actions
 
 export default reducer

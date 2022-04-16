@@ -1,13 +1,16 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useSort } from '../utils/customHook'
 import { selectEmployeeList } from '../utils/selectors'
+
 import '../style/list.css'
 import PageNav from '../components/PageNav'
-/*TODO if too many pages,think about a firstPage previousPage ... n-1Page nPage n+1Page ... nextPage lastPage structure*/
+
 const List = () => {
   let data = useSelector(selectEmployeeList)
-  const [filteredData, setFilterData] = useState(data)
+
+  const [list, setList] = useState(data)
   const [currentPage, setCurrentPage] = useState(1)
   const [nbrOfPages, setNbrOfPages] = useState(null)
   const [sorting, setSorting] = useState({
@@ -22,10 +25,8 @@ const List = () => {
    * Determine number of pages necessary to all datas
    */
   const pagesNumberDetermination = useCallback(() => {
-    setNbrOfPages(
-      Math.ceil(filteredData.length / parseInt(tableLength.current.value))
-    )
-  }, [filteredData.length])
+    setNbrOfPages(Math.ceil(list.length / parseInt(tableLength.current.value)))
+  }, [list.length])
 
   useEffect(() => {
     pagesNumberDetermination()
@@ -48,41 +49,29 @@ const List = () => {
       setSorting({ method: sortBy, direction: 'asc' })
     }
   }
-
-  const sort = () => {
-    let dataCopy = filteredData.sort((a, b) => {
-      if (sorting.direction === 'asc') {
-        return a[sorting.method].toLowerCase() < b[sorting.method].toLowerCase()
-          ? -1
-          : 1
-      } else {
-        return a[sorting.method].toLowerCase() < b[sorting.method].toLowerCase()
-          ? 1
-          : -1
-      }
-    })
-    return dataCopy
-  }
-  sort()
+  const sortedData = useSort(sorting)
+  useEffect(() => {
+    setList(sortedData)
+  }, [sortedData])
 
   const onSearch = () => {
     const filtered = []
-    data.forEach((data) => {
+    data.forEach((employee) => {
       if (
-        Object.values(data)
+        Object.values(employee)
           .slice(1)
           .toString()
           .toLowerCase()
           .includes(search.current.value.toLowerCase())
       ) {
-        filtered.push(data)
+        filtered.push(employee)
       }
     })
-    setFilterData(filtered)
+    setList(filtered)
     setCurrentPage(1)
   }
 
-  let pagedData = filteredData.filter(
+  let pagedData = list.filter(
     (_employee, index) => index >= minDataIndex && index <= maxDataIndex
   )
 
@@ -286,9 +275,9 @@ const List = () => {
         <div className="dataTable_info">
           Showing {minDataIndex + 1} to
           {(currentPage - 1) * tableLength.current.value +
-            pagedData.length} of {filteredData.length}
+            pagedData.length} of {list.length}
           entries{' '}
-          {data.length !== filteredData.length &&
+          {data.length !== list.length &&
             `(filtered from ${data.length} total entries)`}
         </div>
         <PageNav
