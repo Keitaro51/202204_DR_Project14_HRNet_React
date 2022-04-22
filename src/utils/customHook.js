@@ -1,10 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { sortEmployee } from '../features/employees'
+import { sortByText, sortByDate } from '../features/employees'
 import { selectEmployeeList } from '../utils/selectors'
 
 export const useSort = (sorting) => {
   const dispatch = useDispatch()
-  dispatch(sortEmployee(sorting))
+  if (sorting.method === 'dateOfBirth' || sorting.method === 'startDate') {
+    dispatch(sortByDate(sorting))
+  } else {
+    dispatch(sortByText(sorting))
+  }
   let sortedData = useSelector(selectEmployeeList)
 
   return sortedData

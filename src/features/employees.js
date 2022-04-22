@@ -38,7 +38,7 @@ const { actions, reducer } = createSlice({
       })
       return
     },
-    sortEmployee: (state, action) => {
+    sortByText: (state, action) => {
       state.list.sort((a, b) => {
         const firstEntrie = a[action.payload.method].toLowerCase()
         const secondEntrie = b[action.payload.method].toLowerCase()
@@ -50,9 +50,21 @@ const { actions, reducer } = createSlice({
       })
       return state
     },
+    sortByDate: (state, action) => {
+      state.list.sort((a, b) => {
+        const firstEntrie = new Date(a[action.payload.method])
+        const secondEntrie = new Date(b[action.payload.method])
+        if (action.payload.direction === 'asc') {
+          return firstEntrie - secondEntrie
+        } else {
+          return secondEntrie - firstEntrie
+        }
+      })
+      return state
+    },
   },
 })
 
-export const { add, sortEmployee } = actions
+export const { add, sortByText, sortByDate } = actions
 
 export default reducer

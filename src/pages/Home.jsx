@@ -5,6 +5,8 @@ import { add } from '../features/employees'
 import Modal from '../components/Modal'
 import FormSelect from '../components/FormSelect'
 
+import { DatePicker } from 'oc_p14_hrnet_datepicker/dist/index'
+
 const Home = () => {
   const [modalDisplay, setModalDisplay] = useState(false)
   const dispatch = useDispatch()
@@ -59,24 +61,28 @@ const Home = () => {
             ref={addInputs}
           />
 
-          <label htmlFor="date-of-birth">Date of Birth</label>
+          {/* <label htmlFor="date-of-birth">Date of Birth</label>
           <input
             id="date-of-birth"
             type="date"
             required
             defaultValue="1983-06-18"
             ref={addInputs}
+          /> */}
+          <DatePicker
+            forId="date-of-birth"
+            content="Date of Birth"
+            ref={addInputs}
           />
-
-          <label htmlFor="start-date">Start Date</label>
+          {/* <label htmlFor="start-date">Start Date</label>
           <input
             id="start-date"
             type="date"
             required
-            defaultValue="2022-03-29"
+            defaultValue="1983-06-18"
             ref={addInputs}
-          />
-
+          /> */}
+          <DatePicker forId="start-date" content="Start Date" ref={addInputs} />
           <fieldset className="address">
             <legend>Address</legend>
 
