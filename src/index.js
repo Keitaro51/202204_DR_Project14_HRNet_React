@@ -12,7 +12,7 @@ import './style/app.css'
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <Router>
+      <Router basename="/P14_OC_Front-end_HRNet_React">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/employees" element={<List />} />
