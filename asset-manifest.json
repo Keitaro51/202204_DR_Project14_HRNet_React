@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/P14_OC_Front-end_HRNet_React/static/css/main.2dab323f.css",
+    "main.js": "/P14_OC_Front-end_HRNet_React/static/js/main.8176d064.js",
+    "static/js/787.312e6e78.chunk.js": "/P14_OC_Front-end_HRNet_React/static/js/787.312e6e78.chunk.js",
+    "index.html": "/P14_OC_Front-end_HRNet_React/index.html",
+    "main.2dab323f.css.map": "/P14_OC_Front-end_HRNet_React/static/css/main.2dab323f.css.map",
+    "main.8176d064.js.map": "/P14_OC_Front-end_HRNet_React/static/js/main.8176d064.js.map",
+    "787.312e6e78.chunk.js.map": "/P14_OC_Front-end_HRNet_React/static/js/787.312e6e78.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2dab323f.css",
+    "static/js/main.8176d064.js"
+  ]
+}
