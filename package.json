@@ -5,7 +5,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
     "gh-pages": "^3.2.3",
-    "oc_p14_hrnet_datepicker": "^1.0.0",
+    "oc_p14_hrnet_datepicker": "^1.1.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

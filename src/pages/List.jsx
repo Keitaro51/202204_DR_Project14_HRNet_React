@@ -6,10 +6,10 @@ import { selectEmployeeList } from '../utils/selectors'
 
 import '../style/list.css'
 import PageNav from '../components/PageNav'
+import TableHeader from '../components/TableHeader'
 
 const List = () => {
-  let data = useSelector(selectEmployeeList)
-
+  const data = useSelector(selectEmployeeList)
   const [list, setList] = useState(data)
   const [currentPage, setCurrentPage] = useState(1)
   const [nbrOfPages, setNbrOfPages] = useState(null)
@@ -49,27 +49,35 @@ const List = () => {
       setSorting({ method: sortBy, direction: 'asc' })
     }
   }
+
+  const onSearch = useCallback(
+    (value) => {
+      let filtered = []
+      data.forEach((employee) => {
+        if (
+          Object.values(employee)
+            .slice(1)
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        ) {
+          filtered.push(employee)
+        }
+      })
+
+      setList(filtered)
+      setCurrentPage(1)
+      return filtered
+    },
+    [data]
+  )
+
   const sortedData = useSort(sorting)
   useEffect(() => {
-    setList(sortedData)
-  }, [sortedData])
-
-  const onSearch = () => {
-    const filtered = []
-    data.forEach((employee) => {
-      if (
-        Object.values(employee)
-          .slice(1)
-          .toString()
-          .toLowerCase()
-          .includes(search.current.value.toLowerCase())
-      ) {
-        filtered.push(employee)
-      }
-    })
+    const filtered = onSearch(search.current.value)
     setList(filtered)
     setCurrentPage(1)
-  }
+  }, [sortedData, onSearch])
 
   let pagedData = list.filter(
     (_employee, index) => index >= minDataIndex && index <= maxDataIndex
@@ -114,106 +122,12 @@ const List = () => {
               id="search"
               type="search"
               ref={search}
-              onChange={onSearch}
+              onChange={() => onSearch(search.current.value)}
             ></input>
           </label>
         </div>
         <table className="dataTable ">
-          <thead>
-            <tr>
-              <th
-                className={
-                  sorting.method === 'firstName'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('firstName')}
-              >
-                First Name
-              </th>
-              <th
-                className={
-                  sorting.method === 'lastName'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('lastName')}
-              >
-                Last Name
-              </th>
-              <th
-                className={
-                  sorting.method === 'startDate'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('startDate')}
-              >
-                Start Date
-              </th>
-              <th
-                className={
-                  sorting.method === 'department'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('department')}
-              >
-                Department
-              </th>
-              <th
-                className={
-                  sorting.method === 'dateOfBirth'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('dateOfBirth')}
-              >
-                Date of Birth
-              </th>
-              <th
-                className={
-                  sorting.method === 'street'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('street')}
-              >
-                Street
-              </th>
-              <th
-                className={
-                  sorting.method === 'city'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('city')}
-              >
-                City
-              </th>
-              <th
-                className={
-                  sorting.method === 'state'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('state')}
-              >
-                State
-              </th>
-              <th
-                className={
-                  sorting.method === 'zipCode'
-                    ? `sorting_${sorting.direction}`
-                    : 'sorting'
-                }
-                onClick={() => setSortBy('zipCode')}
-              >
-                Zip Code
-              </th>
-            </tr>
-          </thead>
-
+          <TableHeader sorting={sorting} setSortBy={setSortBy} />
           <tbody>
             {pagedData.length === 0 ? (
               <tr>
@@ -273,10 +187,15 @@ const List = () => {
           </tbody>
         </table>
         <div className="dataTable_info">
-          Showing {minDataIndex + 1} to
-          {(currentPage - 1) * tableLength.current.value +
-            pagedData.length} of {list.length}
-          entries{' '}
+          {list.length === 1
+            ? `Showing 1 entry `
+            : list.length !== 0
+            ? `Showing ${minDataIndex + 1} to
+          ${
+            (currentPage - 1) * tableLength.current.value + pagedData.length
+          } of ${list.length}
+          entries `
+            : `Showing no entry `}
           {data.length !== list.length &&
             `(filtered from ${data.length} total entries)`}
         </div>
